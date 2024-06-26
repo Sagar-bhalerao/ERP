@@ -8,7 +8,6 @@ function App() {
 
   const { isAuthenticated, user } = useSelector((state: any) => state.auth);
   console.log(isAuthenticated, user);
-  console.log("last test");
   
   return (
     <>
