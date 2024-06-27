@@ -68,9 +68,10 @@ const DeskMenu = () => {
                                 }}>
                                     <summary>Master</summary>
                                     <ul>
-                                        <li><a>Dashboard</a></li>
-                                        <li><a>Gatepass</a></li>
-                                        <li><a>Director</a></li>
+                                    <li><Link to='/society/memview'>Member</Link></li>
+                      <li><Link to='/society/groupview'>AC Group</Link></li>
+                      <li><Link to='/society/accview'>Account</Link></li>
+                      <li><Link to='/society/schemeview'>Scheme</Link></li>
                                     </ul>
                                 </details>
                             </li>
