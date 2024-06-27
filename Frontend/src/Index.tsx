@@ -29,6 +29,12 @@ import View from './components/Book-Meet/View/View'
 import Logout from './components/auth/Logout'
 import { useSelector } from 'react-redux'
 import Register from './components/auth/Register'
+import AcGroup from './components/Society/Master/AC Group/AcGroup'
+import SocAccount from './components/Society/Master/Account/SocAccount'
+import EditMember from './components/Society/Master/Member/EditMember'
+import Newmember from './components/Society/Master/Member/Newmember'
+import SocMember from './components/Society/Master/Member/SocMember'
+import SocScheme from './components/Society/Master/Scheme/SocScheme'
 const Index = () => {
   const { isAuthenticated } = useSelector((state: any) => state.auth)
 
@@ -68,6 +74,12 @@ const Index = () => {
           <Route path='/create' element={<Create />} />
           <Route path='/view' element={<View />} />
           <Route path='/logout' element={<Logout />} />
+          <Route path='/society/memview' element={<SocMember />} />
+          <Route path='/society/groupview' element={<AcGroup />} />
+          <Route path='/society/accview' element={<SocAccount />} />
+          <Route path='/society/schemeview' element={<SocScheme />} />
+          <Route path='/society/newmember' element={<Newmember />} />
+          <Route path='/society/editmember' element={<EditMember />} />
           
         </>)}
 
