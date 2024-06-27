@@ -3,12 +3,15 @@ import categoryReducer from "../features/HR/Master/Product/productSlice"
 import authReducer from "../features/auth/auhtSlice"
 import newProdSlice from '../features/HR/Transaction/newProdSlice';
 import attendSlice from '../features/HR/Transaction/attendSlice';
+import gatepassSlice from '../features/Gatepass/gatepassSlice';
 export const store = configureStore({
   reducer: {
     attendance: attendSlice,
     newprod: newProdSlice,
     category: categoryReducer,
-    auth: authReducer
+    auth: authReducer,
+    Gatepass:gatepassSlice,
+    
   },
 })
 
