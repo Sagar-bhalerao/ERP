@@ -6,13 +6,14 @@ import ModalToLoc from "./ModalToLoc";
 import ModalFromDept from "./ModalFromDept";
 import ModalToDept from "./ModalToDept";
 import { toast } from "sonner";
-import { newGpEntry } from "../../../Services/Gatepass/Entry/EntryApis";
+import { newGpEntry } from "../../../Services/Gatepass/GatepassApis";
 
 const Entry = () => {
   const [isOfficial, setIsOfficial] = useState<boolean>(false);
   const { emp_id, emp_name, from_loc_id, from_loc_name, to_loc_id, to_loc_name, from_dept_name, to_dept_name, from_dept_id, to_dept_id } = useSelector((state: any) => state.Gatepass);
+  const cureentDate = new Date();
   const [Inputs, setInputs] = useState({
-    date: "",
+    date: cureentDate.toISOString().split("Y")[0],
     entryNo: "",
     employee: "",
     official: false,
@@ -42,7 +43,7 @@ const Entry = () => {
       emp_id: emp_id,
       emp_name: emp_name,
       gp_date: Inputs.date,
-      gp_type: isOfficial ? 'official' : 'private',
+      gp_type: isOfficial ? 'O' : 'P',
       from_dept_id: from_dept_id,
       from_dept_name: from_dept_name,
       to_dept_id: to_dept_id,
@@ -62,6 +63,7 @@ const Entry = () => {
     }
 
   }
+
   return (
     <>
       <div className="flex justify-center">
@@ -73,7 +75,7 @@ const Entry = () => {
                 Date <span className="text-red-600">*</span>
               </label>
               <input type="date" name="date" className="col-span-3 md:col-span-1 input-sm input input-bordered w-full max-w-xs"
-                onChange={handleInput} value={Inputs.date} />
+                onChange={handleInput} value={cureentDate.toISOString().split("T")[0]} />
 
               <label htmlFor="entryNo" className="col-span-1 flex items-center justify-center md:justify-end mr-4">
                 Entry No
@@ -171,7 +173,7 @@ const Entry = () => {
 
             <div className="flex justify-center items-center gap-4">
               <button className="btn btn-sm btn-outline btn-success" onClick={handleSubmit}>Submit</button>
-              <button className="btn btn-sm btn-outline">Cancel</button>
+              <button type="button" className="btn btn-sm btn-outline">Cancel</button>
             </div>
           </form>
         </div>
