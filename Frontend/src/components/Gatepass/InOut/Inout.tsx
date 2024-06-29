@@ -1,13 +1,151 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { getGpass } from "../../../Services/Gatepass/GatepassApis";
+import { toast } from "sonner";
+import axios from "axios";
+import moment from "moment";
+import { useSelector } from "react-redux";
 
 const Inout = () => {
+  const [data, setData] = useState([]);
+  const [disabledButtons, setDisabledButtons] = useState<{ [key: string]: { in: boolean; out: boolean } }>({});
+  
+  const [gpNO,setgpNO] = useState(0);
+  const { user } = useSelector((state: any) => state.auth);
+  const id = JSON.parse(user);
+  setTimeout(() => {
+    
+  }, );
+  // Load disabled buttons state from local storage
+// Function to remove localStorage item
+const removeLocalData = () => {
+  localStorage.removeItem("disabledButtons");
+  console.log("Local storage cleared");
+};
+
+// Calculate milliseconds until the next target time
+const getTimeUntilNextTarget = () => {
+  const now = new Date();
+  const nextTarget = new Date();
+  
+  // Set the target time (e.g., 00:00:00 for midnight)
+  nextTarget.setHours(0, 0, 0,0 );
+  
+  // If the current time is past the target time, set it for the next day
+  if (now.getTime() > nextTarget.getTime()) {
+    nextTarget.setDate(now.getDate() + 1);
+  }
+  
+  return nextTarget.getTime() - now.getTime();
+};
+
+// Set the initial timeout to the next target time
+setTimeout(() => {
+  removeLocalData();
+  
+  // After the initial execution, set an interval to run every 24 hours
+  setInterval(removeLocalData, 24 * 60 * 60 * 1000);
+}, getTimeUntilNextTarget());
+
+  useEffect(() => {
+    const storedDisabledButtons = localStorage.getItem('disabledButtons');
+    if (storedDisabledButtons) {
+      setDisabledButtons(JSON.parse(storedDisabledButtons));
+    }
+  }, []);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await getGpass();
+        setData(response);
+      } catch (error) {
+        toast.error(`Something went wrong: ${error}`);
+      }
+    };
+    fetchData();
+  }, []);
+
+
+      const fetchTime = async()=>{
+        try {
+          let body = {
+            gp_no:gpNO
+          }
+          const response = await axios.post("http://192.168.179.23:5002/gptime-diff",body);
+          console.log(response.data);
+          
+        } catch (error:any) {
+          console.log(error);
+          
+        }
+      }
+      
+  const handleOUT = async (item: any) => {
+    
+    const body = {
+      gp_no: item.gp_no,
+      gp_date: moment(item.gp_date).format("YYYY/MM/DD"),
+      gp_flag: "O",
+      gp_loc: id.loc_id,
+    };
+    console.log(body);
+
+    try {
+      const response = await axios.post(`http://192.168.179.23:5002/gpout`, body);
+      console.log(response.data);
+      const btn_out = response.data.btn_out;
+      
+      if (btn_out) {
+        toast.success("Out time recorded successfully");
+
+        const updatedState = {
+          ...disabledButtons,
+          [item.gp_no]: { ...disabledButtons[item.gp_no], out: true }
+        };
+        setDisabledButtons(updatedState);
+
+        // Store updated state in local storage
+        localStorage.setItem('disabledButtons', JSON.stringify(updatedState));
+      }
+    } catch (error: any) {
+      toast.error("This employee already out...!");
+    }
+  };
+
+  const handleIN = async (item: any) => {
+
+    setgpNO(item.gp_no)
+    fetchTime();
+    const body = {
+      gp_no: item.gp_no,
+      gp_date: moment(item.gp_date).format("YYYY/MM/DD"),
+      gp_flag: "I",
+      gp_loc: id.loc_id,
+    };
+    console.log(body);
+    try {
+      const response = await axios.post(`http://192.168.179.23:5002/gpin`, body);
+        toast.success("In time recorded successfully");
+
+      const updatedState = {
+        ...disabledButtons,
+        [item.gp_no]: { ...disabledButtons[item.gp_no], in: true }
+      };
+      setDisabledButtons(updatedState);
+
+      // Store updated state in local storage
+      localStorage.setItem('disabledButtons', JSON.stringify(updatedState));
+    } catch (error) {
+      toast.error("This employee already In...!");
+    }
+  };
 
   return (
     <>
-      <div className="flex justify-center items-center ">
-        <div className="overflow-x-auto  w-full items-center  shadow-xl rounded-xl p-2 m-10  ">
-          <div className=" sticky left-0  ">
+      <div className="flex justify-center items-center">
+        <div className="overflow-x-auto w-full items-center shadow-xl rounded-xl p-2 m-10">
+          <div className="sticky left-0">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               <div>
                 <h1 className="text-xl font-bold">List Of All Gatepass</h1>
@@ -40,45 +178,62 @@ const Inout = () => {
           </div>
 
           <table className="table table-zebra">
-            {/* head */}
-            <thead className=" font-bold  bg-base-200 text-sm">
-              <tr >
+            <thead className="font-bold bg-base-200 text-sm">
+              <tr>
+                <th className="">G No</th>
+                <th className="">G Date</th>
                 <th>Emp Name</th>
-                <th>GP Date</th>
-                <th>No</th>
                 <th>GP Type</th>
                 <th>From Loc</th>
                 <th>To Loc</th>
                 <th>IN</th>
                 <th>OUT</th>
+               
                 <th>Action</th>
-                <th>Report</th>
+                <th>Post</th>
               </tr>
             </thead>
-            <tbody>
-
-              <tr className="hover">
-                <td>1</td>
-                <td>2</td>
-                <td>3</td>
-                <td>4</td>
-                <td>5</td>
-                <td>6</td>
-                <td>7</td>
-                <td>8</td>
-                <td>9</td>
-                <td>0</td>
-              </tr>
-
-            </tbody>
+            {data.map((item: any, index: number) => (
+              <tbody key={index}>
+                <tr className="hover">
+                  <td className="">{item.gp_no}</td>
+                  <td className="">{moment(item.gp_date).format("DD/MM/YYYY")}</td>
+                  <td>{item.emp_name}</td>
+                  <td>{item.gp_type}</td>
+                  <td>{item.from_loc_name}</td>
+                  <td>{item.to_loc_name}</td>
+                  <td>
+                    <button
+                      onClick={() => handleIN(item)}
+                      disabled={disabledButtons[item.gp_no]?.in}
+                      className="btn btn-sm btn-primary btn-outline"
+                    >
+                      IN
+                    </button>
+                  </td>
+                  <td>
+                    <button
+                      onClick={() => handleOUT(item)}
+                      disabled={disabledButtons[item.gp_no]?.out}
+                      className="btn btn-sm btn-primary btn-outline"
+                    >
+                      OUT
+                    </button>
+                  </td>
+                     <td>
+                    {item.post_flag === "Y" ? <button className="btn btn-sm btn-accent">Posted</button> :
+                      <button className="btn btn-sm btn-error">Pending</button>}
+                  </td>
+                  <td>{item.post_flag}</td>
+                </tr>
+              </tbody>
+            ))}
           </table>
-
         </div>
       </div>
       {/* {!loading && <Paginations currentPage={currentPage} itemperPage={itemperPage} handlePageChange={handlePageChange} data={data} />} */}
-
     </>
-  )
-}
+  );
+};
 
-export default Inout
+export default Inout;

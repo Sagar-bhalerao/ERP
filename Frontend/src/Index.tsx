@@ -35,8 +35,12 @@ import EditMember from './components/Society/Master/Member/EditMember'
 import Newmember from './components/Society/Master/Member/Newmember'
 import SocMember from './components/Society/Master/Member/SocMember'
 import SocScheme from './components/Society/Master/Scheme/SocScheme'
+import { toast } from 'sonner'
+import PostView from './components/Gatepass/Post/PostView'
+
 const Index = () => {
-  const { isAuthenticated } = useSelector((state: any) => state.auth)
+  const { isAuthenticated,user } = useSelector((state: any) => state.auth)
+  const role = JSON.parse(user);
 
   return (
     <BrowserRouter>
@@ -49,6 +53,8 @@ const Index = () => {
           <Route path='*' element={<Navigate to="/login" />} />
         </>) : (<>
           <Route path='/' element={<h1>Home</h1>} />
+           
+           {/* HR Comp */}
           <Route path='/employee' element={<Employee />} />
           <Route path='/newemp' element={<NewEmp />} />
           <Route path='/empedit/:emp_id' element={<Empedit />} />
@@ -62,18 +68,27 @@ const Index = () => {
           <Route path='/products' element={<Products />} />
           <Route path='/report' element={<Report />} />
           <Route path='/newproduct' element={<NewProduct />} />
+
+          {/* Gatepass comp */}
           <Route path='/gpassentry' element={<Entry />} />
-          <Route path='/inout' element={<Inout />} />
+          {role.role === "Security" ?( <Route path='/inout' element={<Inout />} /> ): " Cant  "}
+            
+          <Route path='/logout' element={<Logout />} />
           <Route path='/wgpemp' element={<WithoutGp />} />
-          <Route path='/post' element={<Post />} />
+         {role.role === "Manager" || role.role == "Admin" || role.role ==="Master" ? ( <Route path='/post' element={<Post />} />): null} 
+          <Route path='/postview/:gp_no' element={<PostView />} />
           <Route path='/dinout' element={<DirInout />} />
+
+          
           <Route path='/prodview' element={<Production />} />
           <Route path='/attendview' element={<Attendance />} />
           <Route path='/newprod' element={<NewProd />} />
           <Route path='/attendnew' element={<Newattend />} />
           <Route path='/create' element={<Create />} />
           <Route path='/view' element={<View />} />
-          <Route path='/logout' element={<Logout />} />
+
+
+          {/* society comp */}
           <Route path='/society/memview' element={<SocMember />} />
           <Route path='/society/groupview' element={<AcGroup />} />
           <Route path='/society/accview' element={<SocAccount />} />

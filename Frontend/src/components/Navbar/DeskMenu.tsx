@@ -2,7 +2,9 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 const DeskMenu = () => {
-    const {isAuthenticated} = useSelector((state:any)=> state.auth);
+    const {isAuthenticated,user} = useSelector((state:any)=> state.auth);
+    const role = JSON.parse(user);
+    
     return (
         <div className="flex-auto">
             {isAuthenticated ? (<>
@@ -14,9 +16,10 @@ const DeskMenu = () => {
                 <div className="dropdown ">
                     <div tabIndex={0} role="button" className="btn btn-sm m-1">Gatepass</div>
                     <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><Link to='/inout'>In/Out</Link></li>
+                       {role.role === "Security" && (<li><Link to='/inout'>In/Out</Link></li>) } 
                         <li><Link to='/gpassentry'>Entry</Link></li>
-                        <li><Link to="/post">Post</Link></li>
+                        {role.role === "Manager" || role.role ==="Admin" || role.role === "Master" ?  ( <li><Link to="/post">Post</Link></li>) :null}
+                        
                         <li><a>Close</a></li>
                         <li><Link to='/dinout'>Director In/Out</Link></li>
 
