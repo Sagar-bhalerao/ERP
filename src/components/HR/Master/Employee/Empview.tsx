@@ -223,7 +223,7 @@ const Empview = () => {
           </form>
         ))}
         <div className="flex justify-center">
-          <Link to="/Employee" className="btn btn-error btn-outline btn-sm">Close</Link>
+          <Link to="/Employee" className="btn btn-outline btn-sm ">Cancel</Link>
         </div>
       </div>
     </div>

@@ -107,8 +107,7 @@ const ModalEmp = () => {
         <Paginations currentPage={currentPage} itemperPage={itemperPage} handlePageChange={handlePageChange} data={data} />
         <button
           onClick={() => (document.getElementById("EmpModal") as HTMLDialogElement)?.close()}
-          className="btn float-end p-2 mt-2 btn-sm btn-outline btn-error"
-        >
+          className="btn float-end p-2 mt-2 btn-sm btn-outline"   >
           Close
         </button>
       </div>

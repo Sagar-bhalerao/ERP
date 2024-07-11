@@ -127,9 +127,9 @@ const Newmember = () => {
 
             <div className="overflow-x-auto  items-center  p-2 border border-gray-300 mb-2">
               <span className="font-bold  text-base sticky left-0">Nominee Details...!</span>
-              <table className="table table-zebra">
+              <table className="table ">
                 {/* head */}
-                <thead className=" font-bold  bg-base-200 text-sm">
+                <thead className=" font-bold bg-base-200 text-sm">
                   <tr >
                     <th>Sr No.</th>
                     <th>Nominee Name</th>
@@ -141,10 +141,10 @@ const Newmember = () => {
 
                 <tbody >
 
-                  <tr className="hover" >
+                  <tr className="" >
                     <td><input type="text" className="input input-sm input-bordered w-12" defaultValue={1} readOnly /></td>
                     <td><input type="text" className="input input-sm input-bordered" onChange={(e) => setNomName(e.target.value)} /></td>
-                    <td><input type="text" className="input input-sm input-borderedw-28" onChange={(e) => setNomRelate(e.target.value)} /></td>
+                    <td><input type="text" className=" input input-sm input-bordered w-28" onChange={(e) => setNomRelate(e.target.value)} /></td>
                     <td><input type="date" className="input input-sm input-bordered w-auto" onChange={(e) => setNomDob(e.target.value)} /></td>
                     <td><input type="number" className="input input-sm input-bordered w-20" onChange={(e) => setNomShare(e.target.value)} /></td>
                   </tr>

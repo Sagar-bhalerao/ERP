@@ -1,11 +1,5 @@
-import { FC } from "react"
 
-interface OtherData {
-    setSearchTerm: string | any
-    name:string;
-    createButtonAction:()=>void;
-}
-const ReusableHeader: FC<OtherData> = ({ setSearchTerm,name,createButtonAction }) => {
+const ReusableHeader = () => {
     return (
         
             <div className=" sticky left-0  ">

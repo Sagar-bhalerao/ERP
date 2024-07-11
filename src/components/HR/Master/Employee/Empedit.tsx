@@ -175,7 +175,7 @@ const Empedit = () => {
                             <div className="col-span-12 sm:col-span-6 lg:col-span-4">
                                 <div className="join">
                                     <input onChange={handleInput} name="loc_name" className="input input-sm input-bordered join-item w-[210px]" />
-                                    <button className="btn btn-sm join-item">Select</button>
+                                    <button type="button" className="btn btn-outline btn-sm join-item">Select</button>
                                 </div>
 
                             </div>
@@ -187,7 +187,7 @@ const Empedit = () => {
                             <div className="col-span-12 sm:col-span-6 lg:col-span-4">
                                 <div className="join">
                                     <input onChange={handleInput} name="dept_name" className="input input-sm input-bordered join-item w-[210px]" />
-                                    <button className="btn btn-sm join-item ">Select</button>
+                                    <button type="button" className="btn btn-outline btn-sm join-item ">Select</button>
                                 </div>
                             </div>
                         </div>
@@ -201,7 +201,7 @@ const Empedit = () => {
                             <div className="col-span-12 sm:col-span-6 lg:col-span-4">
                                 <div className="join">
                                     <input onChange={handleInput} name="catg_name" className="input input-sm input-bordered join-item w-[210px]" />
-                                    <button className="btn btn-sm join-item">Select</button>
+                                    <button type="button" className="btn btn-outline btn-sm join-item">Select</button>
                                 </div>
 
                             </div>
@@ -213,7 +213,7 @@ const Empedit = () => {
                             <div className="col-span-12 sm:col-span-6 lg:col-span-4">
                                 <div className="join">
                                     <input onChange={handleInput} name="desg_name" className="input input-sm input-bordered join-item w-[210px]" />
-                                    <button className="btn btn-sm join-item ">Select</button>
+                                    <button type="button" className="btn btn-outline btn-sm join-item ">Select</button>
                                 </div>
                             </div>
                         </div>
@@ -228,7 +228,7 @@ const Empedit = () => {
                             <div className="col-span-12 sm:col-span-6 lg:col-span-4">
                                 <div className="join">
                                     <input onChange={handleInput} name="userrole" className="input input-sm input-bordered join-item w-[210px]" />
-                                    <button className="btn btn-sm join-item">Select</button>
+                                    <button type="button" className="btn btn-outline btn-sm join-item">Select</button>
                                 </div>
 
                             </div>
@@ -240,7 +240,7 @@ const Empedit = () => {
                             <div className="col-span-12 sm:col-span-6 lg:col-span-4">
                                 <div className="join">
                                     <input onChange={handleInput} name="off_day" className="input input-sm input-bordered join-item w-[210px]" />
-                                    <button className="btn btn-sm join-item ">Select</button>
+                                    <button type="button" className="btn btn-outline btn-sm join-item ">Select</button>
                                 </div>
                             </div>
                         </div>
@@ -275,14 +275,14 @@ const Empedit = () => {
                             <div className="col-span-12 sm:col-span-6 lg:col-span-4">
                                 <div className="join">
                                     <input onChange={handleInput} name="vc_comp_name" className="input input-sm input-bordered join-item w-[210px]" />
-                                    <button className="btn btn-sm join-item ">Select</button>
+                                    <button type="button" className="btn btn-outline  btn-sm join-item ">Select</button>
                                 </div>
                             </div>
 
                         </div>
                         <div className="flex justify-center ">
                             <button className=" btn btn-sm btn-primary mr-3" type="submit">Submit</button>
-                            <Link to="/employee" className=" btn btn-sm btn-error" type="submit">Cancel</Link>
+                            <Link to="/employee" className=" btn btn-sm btn-error btn-outline" type="submit">Cancel</Link>
                         </div>
                     </form>
                 ))}

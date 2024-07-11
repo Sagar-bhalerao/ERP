@@ -11,6 +11,7 @@ interface Gatepass {
   from_dept_name: String,
   to_dept_id: number,
   to_dept_name: String,
+  dependencyTrigger: number
 }
 
 const initialState: Gatepass = {
@@ -24,6 +25,7 @@ const initialState: Gatepass = {
   from_dept_name: "",
   to_dept_id: 0,
   to_dept_name: "",
+  dependencyTrigger: 0,
 }
 
 export const GpassSlice = createSlice({
@@ -58,9 +60,12 @@ export const GpassSlice = createSlice({
       // console.log("To Dept", id, name);
       state.to_dept_id = id;
       state.to_dept_name = name;
+    },
+    incrementDependencyTrigger: (state) => {
+      state.dependencyTrigger += 1;
     }
   }
 })
 
-export const { handleSelectEmp, handleFromLoc, handleToLoc, handleFromDept, handleToDept } = GpassSlice.actions;
+export const { handleSelectEmp, handleFromLoc, handleToLoc, handleFromDept, handleToDept, incrementDependencyTrigger } = GpassSlice.actions;
 export default GpassSlice.reducer;

@@ -49,7 +49,7 @@ const SocMember = () => {
   const handleEditMember = (item: any) => {
     console.log(item);
     setEditMember(item);
-    navigate("/society/editmember");
+    navigate(`/society/editmember/${item.mem_code}`);
   }
   return (
     <>

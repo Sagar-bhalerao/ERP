@@ -1,9 +1,19 @@
-import { FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
+import { Booking } from "../../../Services/Book-met/BookMet";
+import { useSelector } from "react-redux";
 const Create = () => {
   const [isTable, setIsTable] = useState(false);
+  const [Inputs,setInputs] = useState({
+    Location:"",
+    Date:"",
+    MeetHall:"",
+  })
   const [rows, setRows] = useState([{ id: 1, time: '', details: '' }]);
-
+  const [isHouse,setIsHouse] = useState(false);
+  const {user} = useSelector((state:any)=>state.auth);
+  const name = JSON.parse(user)
+  
   const handleContinueButton = () => {
     setIsTable(true);
   }
@@ -24,13 +34,42 @@ const Create = () => {
     }
     setRows([...rows, newEntry]);
   }
-  const handleSubmit = (e:FormEvent)=>{
+  const handleSubmit = async(e:FormEvent)=>{
     e.preventDefault();
    console.log(rows);
+   let body  = {
+    location:Inputs.Location,
+    meet_date:Inputs.Date,
+    meet_hall:Inputs.MeetHall,
+    rows:rows,
+    user_name:name.userId
+
+   }
+   console.log(body);
+   
+   try {
+      const response = await Booking(body);
+   } catch (error) {
+    console.log(error);
+    
+   }
    
   }
   const deleteEntry = () => {
     setRows(rows.filter((row, index) => index !== rows.length - 2));
+  }
+
+  const handleSelectLoc = (e:any)=>{
+    setIsHouse(e.target.value === 'House' ? true : false);
+
+  }
+  const handleInputs = (e:FormEvent)=>{
+    const {name,value}:any  = e.target; 
+    setInputs((prev)=>({
+      ...prev,
+      [name]:value
+    }))
+
   }
   return (
     <>
@@ -43,7 +82,8 @@ const Create = () => {
                 <label htmlFor="location" className="mb-2">
                   Location <span className="text-red-600">*</span>
                 </label>
-                <select className="select select-sm select-bordered w-full max-w-xs">
+             
+                <select onChange={handleInputs} name="Location" onClick={handleSelectLoc} className="select select-sm select-bordered w-full max-w-xs">
                   <option selected disabled>Select</option>
                   <option value="Lawns">Lawns</option>
                   <option value="House">House</option>
@@ -53,13 +93,20 @@ const Create = () => {
                 <label htmlFor="date" className="mb-2">
                   Date <span className="text-red-600">*</span>
                 </label>
-                <input id="date" type="date" className="input input-sm input-bordered w-[320px]" required />
+                <input onChange={handleInputs} name="Date" id="date" type="date" className="input input-sm input-bordered w-[320px]" required />
               </div>
               <div className="flex flex-col items-center md:items-start">
                 <label htmlFor="meet-hall" className="mb-2">
                   Meet Hall <span className="text-red-600">*</span>
                 </label>
-                <select className="select select-sm select-bordered w-full max-w-xs">
+                {isHouse ? (<select  onChange={handleInputs}  name="MeetHall" className="select select-sm select-bordered w-full max-w-xs">
+
+
+                  <option selected disabled>Select</option>
+                  <option value="Ground Floor">Ground Floor</option>
+                  <option value="First Floor">First Floor</option>
+                </select>):
+                <select  onChange={handleInputs} name="MeetHall" className="select select-sm select-bordered w-full max-w-xs">
                   <option selected disabled>Select</option>
                   <option value="Utsav Hall">Utsav Hall</option>
                   <option value="Lawn">Lawn</option>
@@ -67,6 +114,7 @@ const Create = () => {
                   <option value="Banquet Lawn">Banquet + Lawn</option>
                   <option value="Utsav Banquet Lawn">Utsav + Banquet + Lawn</option>
                 </select>
+                 }
               </div>
             </div>
             <div className="flex justify-center gap-4">
@@ -92,7 +140,23 @@ const Create = () => {
                           <td><input type="text" className="input input-sm input-bordered w-16" value={index + 1} readOnly /></td>
                           <td>
                             <div>
-                            <select
+                              {isHouse ? (<select
+                              className="select select-sm select-bordered max-w-xs"
+                              value={row.time}
+                              onChange={(e) => handleTime(index, e.target.value)}
+                            >
+                              <option value="" selected>Select</option>
+                              <option value="01:00 PM">01:00 PM</option>
+                              <option value="02:00 PM">02:00 PM</option>
+                              <option value="03:00 PM">03:00 PM</option>
+                              <option value="04:00 PM">04:00 PM</option>
+                              <option value="05:00 PM">05:00 PM</option>
+                              <option value="06:00 PM">06:00 PM</option>
+                              <option value="09:00 AM">09:00 AM</option>
+                              <option value="10:00 AM">10:00 AM</option>
+                              <option value="11:00 AM">11:00 AM</option>
+                              <option value="12:00 PM">12:00 PM</option>
+                            </select>):(<select
                               className="select select-sm select-bordered max-w-xs"
                               value={row.time}
                               onChange={(e) => handleTime(index, e.target.value)}
@@ -101,7 +165,8 @@ const Create = () => {
                               <option value="Morning">Morning</option>
                               <option value="Afternoon">Afternoon</option>
                               <option value="Evening">Evening</option>
-                            </select>
+                            </select>)}
+                            
                             </div>
                           </td>
                           <td><input value={row.details} onChange={(e)=>handleDetails(index,e.target.value)} name="details" type="text" className="input input-sm input-bordered w-full" /></td>
@@ -110,7 +175,7 @@ const Create = () => {
                     </tbody>
                   </table>
                   <div className="flex mt-2">
-                    <button type="button" className="btn btn-sm btn-outline btn-success mr-2" onClick={handleAddEntry}>Add Entry</button>
+                    <button type="button" className="btn btn-sm btn-outline btn-primary mr-2" onClick={handleAddEntry}>Add Entry</button>
                     <button type="button" className="btn btn-sm btn-outline btn-error" onClick={deleteEntry}><RiDeleteBin6Line /></button>
                   </div>
                 </div>

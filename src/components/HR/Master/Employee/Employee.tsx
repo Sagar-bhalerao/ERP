@@ -1,4 +1,4 @@
-
+ 
 import { fetchEmpData } from "../../../../Services/HR/Master/MasterAPI"
 import {useEffect, useState } from "react";
 
@@ -67,14 +67,14 @@ const Employee = () => {
 
     return (
         <>
-            <div className="flex justify-center items-center">
-                <div className="overflow-x-auto w-full p-2 m-5 shadow-xl rounded-xl">
+            <div className="flex justify-center items-center ">
+                <div className="overflow-x-auto w-full p-2 m-5 shadow-xl rounded-xl ">
                     <ReusableHeader setSearchTerm={setSearchTerm} name="List of Employees" createButtonAction={handleCreateButton} />
                     {loading ? loadingfall : (
-                        <table className="table table-zebra">
+                        <table className="table table-zebra ">
                             {/* head */}
-                            <thead className="text-center bg-base-200 text-sm">
-                                <tr >
+                            <thead className=" btn-sm font-bold bg-base-200  text-sm">
+                                <tr className="" >
                                     <th>Code</th>
                                     <th>Name</th>
                                     <th>Status</th>
